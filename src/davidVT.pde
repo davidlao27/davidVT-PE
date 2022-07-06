@@ -39,6 +39,7 @@ float volume;
 float v_low = 0.06;
 boolean info = true;
 int bkmode = 0; // 0 = green, 1 = fuchsia, 2 = blue
+String modechanger_current = "volume";
 
 //Mode Integer
 int mode = 0;
@@ -68,7 +69,10 @@ void draw() {
     
     text(str(volume) + " (current)", 40, 40); // Current volume
     text(float(nf(v_low, 0, 2)) + " (required)", 40, 70); // Lowest Volume Required
-    text(mode, width-40, 40); // Mode Using
+    text(bopAmount + " (bop amount)", 40, 100); // Bop amount in pixels
+    
+    text(mode + " (mode)", width-160, 40); // Mode Using
+    text(modechanger_current + " (scroll)", width-160, 70); // Bop amount in pixels
   }
   
   if (volume > v_low) {
@@ -147,15 +151,27 @@ void draw() {
 void mouseWheel(MouseEvent event) {
   float e = event.getCount(); // -1 up to 1 down
   
-  if (e < 0 && v_low < 0.99) { // Scroll up
-    v_low += 0.01;
-  } else if (e > 0 && v_low > 0.01 ) { // Scroll down
-    v_low -= 0.01;
+  if (modechanger_current == "volume") {
+    if (e < 0 && v_low < 0.99) { // Scroll up
+      v_low += 0.01;
+    } else if (e > 0 && v_low > 0.01 ) { // Scroll down
+      v_low -= 0.01;
+    }
+  } else if (modechanger_current == "bopper") {
+    if (e < 0) { // Scroll up
+      bopAmount++;
+    } else if (e > 0) { // Scroll down
+      bopAmount--;
+    }
   }
 }
 
 // Keyboard Interrupt Events //
 void keyPressed() {
+  if (keyCode == java.awt.event.KeyEvent.VK_F1){
+    link("https://github.com/davidlao27/davidVT-PE/blob/main/README.md");
+  }
+   
   if (key == 'i' || key == 'I') { // Info aka Semidebug Panel
       if (info) {
         info = false;
@@ -186,6 +202,12 @@ void keyPressed() {
   } else if (key == 'e' || key == 'E') { // Forwards Mode List
     if (mode != 3) {
       mode++;
+    }
+  } else if (key == 'w' || key == 'W') { // Scroll Mode Alternator Key
+    if (modechanger_current == "volume") {
+      modechanger_current = "bopper";
+    } else if (modechanger_current == "bopper") {
+      modechanger_current = "volume";
     }
   }
 }
