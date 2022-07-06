@@ -14,6 +14,8 @@
  **The Keyboard:**
  
  Q and E are used to go back and forth in the Choose Mode menu.<br>
+ B is used to change the background color<br>
+ I is used to toggle the debug info menu<br>
  W is used to change between scroll modes (volume, bop amount)<br>
  Press F1 anytime to open this README "controls" file on your browser.
  
